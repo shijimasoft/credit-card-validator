@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool number_check(string number) {
+bool number_check(const string& number) {
     for(int i=0; i<number.length(); i++) {
         if (!isdigit(number[i])) {
             cout << "Invalid card number." << endl;
@@ -21,7 +21,7 @@ unsigned int to_single(unsigned int twodigit) {
     return single;
 }
 
-string identify(string chunk) {
+string identify(const string& chunk) {
     unsigned int two = stoi(chunk.substr(0,2));
     unsigned int three = stoi(chunk.substr(0,3));
     unsigned int four = stoi(chunk);
@@ -42,9 +42,8 @@ string identify(string chunk) {
         return "Unknown";
 }
 
-int main() {
+int main(void) {
     string cc_number;
-    bool even = true;
     unsigned int actual, sum=0;
     
     cout << "↓ Enter the card number ↓" << endl;
@@ -52,23 +51,17 @@ int main() {
     if (number_check(cc_number)) {
         for(int i=0;i<cc_number.length();i++) {
             actual = cc_number[i] - '0';
-            if (even) {
+            if (i % 2 == 0) {
                 actual *= 2;
-                if (actual > 9) {
+                if (actual > 9)
                     actual = to_single(actual);
-                }
-                sum += actual;
-                even = false;
-            } else {
-                sum += actual;
-                even = true;
             }
+            sum += actual;
         }
         if (sum % 10 == 0) {
             cout << "The card is valid." << endl;
             cout << "Type: " << identify(cc_number.substr(0,4)) << endl;
-        } else {
+        } else
             cout << "The card is invalid" << endl;
-        }
     }
 }
