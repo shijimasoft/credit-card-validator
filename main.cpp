@@ -12,15 +12,6 @@ bool number_check(const string& number) {
     return true;
 }
 
-unsigned int to_single(unsigned int twodigit) {
-    unsigned int single = 0;
-    while (twodigit != 0) {
-        single += twodigit % 10;
-        twodigit /= 10;
-    }
-    return single;
-}
-
 string identify(const string& chunk) {
     unsigned int two = stoi(chunk.substr(0,2));
     unsigned int three = stoi(chunk.substr(0,3));
@@ -42,6 +33,11 @@ string identify(const string& chunk) {
         return "Unknown";
 }
 
+// Greedy by ReNero
+void to_single(unsigned int *n) {
+    *n = 1+2*(*n-5);
+}
+
 int main(void) {
     string cc_number;
     unsigned int actual, sum=0;
@@ -52,9 +48,10 @@ int main(void) {
         for(int i=0;i<cc_number.length();i++) {
             actual = cc_number[i] - '0';
             if (i % 2 == 0) {
-                actual *= 2;
-                if (actual > 9)
-                    actual = to_single(actual);
+                if (actual >= 5)
+                    to_single(&actual);
+                else
+                    actual *= 2;
             }
             sum += actual;
         }
