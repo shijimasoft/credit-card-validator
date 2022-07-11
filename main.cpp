@@ -29,7 +29,7 @@ namespace CreditCardValidator {
     }
 
     // Greedy by ReNero
-    void ToSingle(unsigned int* n) {
+    void ToSingle(unsigned int *n) {
         *n = 1 + 2 * (*n - 5);
     }
 }
@@ -45,7 +45,7 @@ int main() {
     if (CreditCardValidator::CheckNumber(cc_number)) {
         for(int i = 0;i < cc_number.length(); i++) {
             actual = cc_number[i] - '0';
-            if (!i % 2) {
+            if (i % 2 == 0) {
                 if (actual >= 5)
                     CreditCardValidator::ToSingle(&actual);
                 else
@@ -55,7 +55,7 @@ int main() {
             sum += actual;
         }
 
-        if (!sum % 10) {
+        if (sum % 10 == 0) {
             std::cout << "The card is valid." << std::endl;
             std::cout << "Type: " << CreditCardValidator::Identify(cc_number.substr(0, 4)) << std::endl;
         } else
